@@ -33,6 +33,7 @@ nav ul li a{
     padding: 10px;
     text-transform: uppercase;
     margin-left: 30px;
+    text-decoration: none;
 }
 nav ul li a:hover, a.active{
     background-color: #E33741;
@@ -97,11 +98,11 @@ nav ul li a:hover, a.active{
     min-width: 300px;
 }
 .plus-minus-btn{
-    color: #3352F2;
-    font-size: 30px;
-    padding: 2px;
-    margin: 10px 5px 0px 0px;
-    word-spacing: 20px;
+    border: none;
+    background-color: white;
+    font-size: 20px;
+    padding: 15px;  
+    margin-top: 20px;
 }
 .booking-form .inputs{
     display: grid;
@@ -109,14 +110,11 @@ nav ul li a:hover, a.active{
     gap: 10px;
 }
 .btn-style{
-    display: block;
     width: 100%;
     padding: 10px;
     border-radius: 5px;
     border: none;
-    color: #fff;
     font-weight: 500;
-    background-color:  #E33741;
 }
 .amount{
     display: flex;

@@ -9,6 +9,15 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@400;500;700&display=swap"
         rel="stylesheet">
+    
+    <!--Bootstrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+        crossorigin="anonymous"></script>
+    <!--sweetAlert-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.14.1/dist/sweetalert2.all.min.js"></script>
     <!-- Stylesheet -->
     <link rel="stylesheet" href="style.css">
 </head>
@@ -31,7 +40,9 @@
 
         <div class="booking-content">
             <h1>Cruise Queen</h1>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book./p>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                scrambled it to make a type specimen book./p>
         </div>
 
 
@@ -48,7 +59,7 @@
             <div class="inputs">
                 <div class="input-group">
                     <label" for="">Departure</label>
-                    <input class="inp-style" type="date" name="">
+                        <input class="inp-style" type="date" name="">
                 </div>
                 <div class="input-group">
                     <label for="">Return</label>
@@ -58,20 +69,22 @@
             <div class="input-group f-class">
                 <div>
                     <label for="">First Class ($150)</label>
-                    <input class="inp-style inp-width" type="number" name="">
+                    <input id="firstClass-input" value="0" class="inp-style inp-width" type="" name="">
                 </div>
-                <div class="plus-minus-btn">
-                    <p><span>+</span> <span>-</span></p>
+                <div>
+                    <button class="plus-minus-btn"><span onclick="firstClass(true);calculateTotal()">+</span></button>
+                    <button class="plus-minus-btn"><span onclick="firstClass(false);calculateTotal()">-</span></button>
                 </div>
             </div>
-            
+
             <div class="input-group f-class">
                 <div>
                     <label for="">Economy ($100)</label>
-                    <input class="inp-style inp-width" type="number" name="">
+                    <input id="secondClass-input" disabled value="0" class="inp-style inp-width" type="number" name="">
                 </div>
-                <div class="plus-minus-btn">
-                    <p> <span>+</span> <span>-</span></p>
+                <div>
+                    <button class="plus-minus-btn"><span onclick="secondClass(true);calculateTotal()">+</span></button>
+                    <button class="plus-minus-btn"><span onclick="secondClass(false);calculateTotal()">-</span></button>
                 </div>
             </div>
             <div class="calculations">
@@ -80,7 +93,7 @@
                         <p>Subtotal</p>
                     </div>
                     <div class="right">
-                        <p>$500</p>
+                        <p>$<span id="subtotal">00</span></p>
                     </div>
                 </div>
 
@@ -89,7 +102,7 @@
                         <p>Charge 10% VAT</p>
                     </div>
                     <div class="right">
-                        <p>$50</p>
+                        <p>$ <span id="vat">00</span></p>
                     </div>
                 </div>
                 <hr>
@@ -98,15 +111,80 @@
                         <h4>Total</h4>
                     </div>
                     <div class="right">
-                        <p>$550</p>
+                        <p>$ <span id="total">00</span></p>
                     </div>
                 </div>
             </div>
-            <button class="btn-style">Book Now</button>
+            <button id="bookingBtn" class="btn-style btn btn-danger">Book Now</button>
         </div>
     </main>
 
     <!--Thank You-->
+    <script>
+        // First Class Handler 
+        function firstClass(isIncrease) {
+            const firstClassInput = document.getElementById('firstClass-input');
+            const firstClassCount = parseInt(firstClassInput.value);
+            let newCount = firstClassCount;
+            if (isIncrease == true) {
+                newCount = firstClassCount + 1
+            };
+            if (isIncrease == false && newCount > 0) {
+                newCount = firstClassCount - 1
+            };
+            firstClassInput.value = newCount;
+            const firstClassTotal = newCount * 150;
+
+            document.getElementById('subtotal').innerText = firstClassTotal;
+        };
+
+        // Second Class Handler
+        function secondClass(isIncrease) {
+            const firstClassInput = document.getElementById('secondClass-input');
+            const firstClassCount = parseInt(firstClassInput.value);
+            let newCount = firstClassCount;
+            if (isIncrease == true) {
+                newCount = firstClassCount + 1
+            };
+            if (isIncrease == false && newCount > 0) {
+                newCount = firstClassCount - 1
+            };
+            firstClassInput.value = newCount;
+            const firstClassTotal = newCount * 100;
+
+            document.getElementById('subtotal').innerText = firstClassTotal;
+        };
+
+        // Total Calculation Start ⬇
+        function calculateTotal() {
+            const firstClass = document.getElementById("firstClass-input");
+            const totalFirstClassCost = parseInt(firstClass.value);
+            const economyClass = document.getElementById("secondClass-input");
+            const totalEconomyClassCost = parseInt(economyClass.value);
+
+            //Subtotal Calculate
+            const subTotal = totalFirstClassCost * 150 + totalEconomyClassCost * 100; 
+            document.getElementById("subtotal").innerText = subTotal;
+
+            //Vat Calculate
+            const vat = Math.round(subTotal * 0.1);
+            document.getElementById("vat").innerText = vat;
+
+            // Subtotal and vat Calculate
+            const totalCost = subTotal + vat;
+            document.getElementById("total").innerText = totalCost;
+        };
+        // Total Calculation End 
+
+        // Booking SuccessFull massage
+        document.getElementById('bookingBtn').addEventListener('click', function(){
+            Swal.fire(
+            'Good job!',
+            'Your Booking Has Been Successful!',
+            'success'
+            )
+        });
+    </script>
 </body>
 
 </html>
